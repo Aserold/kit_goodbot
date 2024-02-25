@@ -45,16 +45,16 @@ async def hello(message: types.Message, bot: Bot):
         BotMessage.initial_message = await message.answer(
             'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇', reply_markup=BASE_KB
         )
-    else:
-        await bot.delete_message(BotMessage.initial_message.chat.id, message.message_id)
-        await bot.edit_message_text('Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
-                                    chat_id=BotMessage.initial_message.chat.id,
-                                    message_id=BotMessage.initial_message.message_id,
-                                    reply_markup=COURSE_KB)
 
 
-# @private_router.callback_query(F.data == 'home')
-# async def home(callback: types.CallbackQuery, bot: Bot):
+@private_router.callback_query(F.data == 'home')
+async def home(callback: types.CallbackQuery, bot: Bot):
+    await bot.edit_message_text(
+        'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
+        chat_id=BotMessage.initial_message.chat.id,
+        message_id=BotMessage.initial_message.message_id,
+        reply_markup=BASE_KB,
+    )
 
 
 class AddUserGroup(StatesGroup):
@@ -66,7 +66,8 @@ class AddUserGroup(StatesGroup):
 @private_router.callback_query(F.data == 'group_dashboard')
 async def group_dashboard(callback: types.CallbackQuery, bot: Bot):
     if BotMessage.initial_message:
-        await bot.edit_message_text('Пожалуйста выберите ваш курс👇', chat_id=BotMessage.initial_message.chat.id,
+        await bot.edit_message_text('Пожалуйста выберите ваш курс👇',
+                                    chat_id=BotMessage.initial_message.chat.id,
                                     message_id=BotMessage.initial_message.message_id,
                                     reply_markup=COURSE_KB)
 
@@ -74,6 +75,8 @@ async def group_dashboard(callback: types.CallbackQuery, bot: Bot):
 @private_router.callback_query(F.data.startswith('course_'))
 async def get_course(callback: types.CallbackQuery, bot: Bot):
     if BotMessage.initial_message:
-        await bot.edit_message_text('Пожалуйста выберите ваш группу👇', chat_id=BotMessage.initial_message.chat.id,
+        await bot.edit_message_text('Пожалуйста выберите ваш группу👇',
+                                    chat_id=BotMessage.initial_message.chat.id,
                                     message_id=BotMessage.initial_message.message_id,
-                                    reply_markup=group_dict[int(callback.data.split('_')[-1])])
+                                    reply_markup=group_dict[int(callback.data.split('_')[-1])]
+                                    )

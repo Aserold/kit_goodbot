@@ -6,16 +6,13 @@ from aiogram.enums import ParseMode
 
 from config import TOKEN
 from common.commands import private
-from handlers.private_msg import private_router
+from handlers.private_msg import private_router, BotMessage, BASE_KB
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
 dp.include_router(private_router)
 
-
-# async def on_startup(bot):
-#
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)

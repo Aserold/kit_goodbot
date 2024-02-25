@@ -12,9 +12,10 @@ FIRST_COURSE_KB = create_buttons_inline(
         '137': '137',
         '31': '31',
         '32': '32',
-        'Назад': 'group_dashboard'
+        'Назад': 'group_dashboard',
+        'В начало': 'home'
     },
-    sizes=(2, 2, 1, 1, 1, 2, 1)
+    sizes=(2, 2, 1, 1, 1, 2, 2)
 )
 
 SECOND_COURSE_KB = create_buttons_inline(
@@ -28,9 +29,10 @@ SECOND_COURSE_KB = create_buttons_inline(
         '227': '227',
         '21': '21',
         '22': '22',
-        'Назад': 'group_dashboard'
+        'Назад': 'group_dashboard',
+        'В начало': 'home'
     },
-    sizes=(2, 2, 1, 1, 1, 2, 1)
+    sizes=(2, 2, 1, 1, 1, 2, 2)
 )
 
 THIRD_COURSE_KB = create_buttons_inline(
@@ -43,9 +45,10 @@ THIRD_COURSE_KB = create_buttons_inline(
         '316': '316',
         '11': '11',
         '12': '12',
-        'Назад': 'group_dashboard'
+        'Назад': 'group_dashboard',
+        'В начало': 'home'
     },
-    sizes=(2, 2, 1, 1, 2, 1)
+    sizes=(2, 2, 1, 1, 2, 2)
 )
 
 FOURTH_COURSE_KB = create_buttons_inline(
@@ -56,9 +59,10 @@ FOURTH_COURSE_KB = create_buttons_inline(
         '404': '404',
         '405': '405',
         '406': '406',
-        'Назад': 'group_dashboard'
+        'Назад': 'group_dashboard',
+        'В начало': 'home'
     },
-    sizes=(2, 2, 1, 1, 1)
+    sizes=(2, 2, 1, 1, 2)
 )
 
 group_dict = {1: FIRST_COURSE_KB, 2: SECOND_COURSE_KB, 3: THIRD_COURSE_KB, 4: FOURTH_COURSE_KB}

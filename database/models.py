@@ -4,7 +4,7 @@ import datetime
 from sqlalchemy import String, SmallInteger, ForeignKey, TIME
 from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
 
-intpk = Annotated[int, mapped_column(primary_key=True)]
+intpk = Annotated[int, mapped_column(primary_key=True, autoincrement=True)]
 str_255 = Annotated[str, 255]
 
 
@@ -38,11 +38,10 @@ class Lesson(Base):
     __tablename__ = 'lesson'
 
     lesson_id: Mapped[intpk]
-    group_id: Mapped[intpk] = mapped_column(ForeignKey(Group.group_id, onupdate='CASCADE'))
-    weekday_id: Mapped[intpk] = mapped_column(ForeignKey(Weekday.weekday_id, onupdate='CASCADE'))
+    group_id: Mapped[int] = mapped_column(ForeignKey(Group.group_id, onupdate='CASCADE'))
+    weekday_id: Mapped[int] = mapped_column(ForeignKey(Weekday.weekday_id, onupdate='CASCADE'))
     start_time: Mapped[datetime.time] = mapped_column(TIME, nullable=False)
     subject: Mapped[str_255] = mapped_column(nullable=False)
-    room: Mapped[str_255] = mapped_column(nullable=True)
 
 
 metadata = Base.metadata

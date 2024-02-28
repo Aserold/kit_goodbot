@@ -2,7 +2,6 @@ from aiogram import Router, types, Bot, F
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
-from sqlalchemy.ext.asyncio import AsyncSession
 
 from keyboards.inline import create_buttons_inline
 from keyboards.group_kb import group_dict
@@ -41,7 +40,6 @@ async def hello(message: types.Message, bot: Bot, state: FSMContext):
         'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇', reply_markup=BASE_KB
     )
     await state.update_data(initial_message=first_message)
-    message_data: types.Message = (await state.get_data())['initial_message']
 
 
 @private_router.callback_query(F.data == 'home')

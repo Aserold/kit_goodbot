@@ -3,15 +3,15 @@ from keyboards.inline import create_buttons_inline
 
 FIRST_COURSE_KB = create_buttons_inline(
     buttons={
-        '131': '131',
-        '132': '132',
-        '133': '133',
-        '134': '134',
-        '135': '135',
-        '136': '136',
-        '137': '137',
-        '31': '31',
-        '32': '32',
+        '131': 'groupnum_131',
+        '132': 'groupnum_132',
+        '133': 'groupnum_133',
+        '134': 'groupnum_134',
+        '135': 'groupnum_135',
+        '136': 'groupnum_136',
+        '137': 'groupnum_137',
+        '31': 'groupnum_31',
+        '32': 'groupnum_32',
         'Назад': 'group_dashboard',
         'В начало': 'home'
     },
@@ -20,15 +20,15 @@ FIRST_COURSE_KB = create_buttons_inline(
 
 SECOND_COURSE_KB = create_buttons_inline(
     buttons={
-        '221': '221',
-        '222': '222',
-        '223': '223',
-        '224': '224',
-        '225': '225',
-        '226': '226',
-        '227': '227',
-        '21': '21',
-        '22': '22',
+        '221': 'groupnum_221',
+        '222': 'groupnum_222',
+        '223': 'groupnum_223',
+        '224': 'groupnum_224',
+        '225': 'groupnum_225',
+        '226': 'groupnum_226',
+        '227': 'groupnum_227',
+        '21': 'groupnum_21',
+        '22': 'groupnum_22',
         'Назад': 'group_dashboard',
         'В начало': 'home'
     },
@@ -37,14 +37,14 @@ SECOND_COURSE_KB = create_buttons_inline(
 
 THIRD_COURSE_KB = create_buttons_inline(
     buttons={
-        '311': '311',
-        '312': '312',
-        '313': '313',
-        '314': '314',
-        '315': '315',
-        '316': '316',
-        '11': '11',
-        '12': '12',
+        '311': 'groupnum_311',
+        '312': 'groupnum_312',
+        '313': 'groupnum_313',
+        '314': 'groupnum_314',
+        '315': 'groupnum_315',
+        '316': 'groupnum_316',
+        '11': 'groupnum_11',
+        '12': 'groupnum_12',
         'Назад': 'group_dashboard',
         'В начало': 'home'
     },
@@ -53,12 +53,12 @@ THIRD_COURSE_KB = create_buttons_inline(
 
 FOURTH_COURSE_KB = create_buttons_inline(
     buttons={
-        '401': '401',
-        '402': '402',
-        '403': '403',
-        '404': '404',
-        '405': '405',
-        '406': '406',
+        '401': 'groupnum_401',
+        '402': 'groupnum_402',
+        '403': 'groupnum_403',
+        '404': 'groupnum_404',
+        '405': 'groupnum_405',
+        '406': 'groupnum_406',
         'Назад': 'group_dashboard',
         'В начало': 'home'
     },

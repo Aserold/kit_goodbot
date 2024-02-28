@@ -1,10 +1,10 @@
 import asyncio
 import datetime
 
-from sqlalchemy import select, update, text
+from sqlalchemy import select, text
 
-from models import Course, Group, Weekday, Lesson
-from database import async_session
+from database.models import Course, Group, Weekday, Lesson
+from database.database import async_session
 from parser.schedule import parse_schedule
 
 WEEKDAYS = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
@@ -61,4 +61,20 @@ async def add_schedule(session, data: list[dict, ...]):
             await session.commit()
 
 
-# asyncio.run(add_schedule(session=async_session, data=parse_schedule()))
+async def get_schedule(session, group: int):
+    async with session() as session:
+        query = (
+            select(
+                Weekday.weekday_name,
+                Lesson.start_time,
+                Lesson.subject
+            )
+            .join(Group, Lesson.group_id == Group.group_id)
+            .join(Weekday, Lesson.weekday_id == Weekday.weekday_id)
+            .where(Group.group_number == group)
+
+        )
+        result = await session.execute(query)
+        schedule = result.fetchall()
+        sorted_schedule = sorted(schedule, key=lambda x: (WEEKDAYS.index(x[0]), x[1]))
+        return sorted_schedule

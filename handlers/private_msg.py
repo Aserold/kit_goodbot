@@ -31,50 +31,67 @@ COURSE_KB = create_buttons_inline(
 
 
 class BotMessage(StatesGroup):
-    initial_message = State()
+    message_id = State()
+    chat_id = State()
 
 
 @private_router.message(CommandStart())
 async def hello(message: types.Message, bot: Bot, state: FSMContext):
-    first_message = await message.answer(
-        'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇', reply_markup=BASE_KB
-    )
-    await state.update_data(initial_message=first_message)
+    if not await state.get_data():
+        bot_message = await message.answer(
+            'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇', reply_markup=BASE_KB
+        )
+        await state.set_state(BotMessage.message_id)
+        await state.update_data(message_id=bot_message.message_id)
+        await state.set_state(BotMessage.chat_id)
+        await state.update_data(chat_id=bot_message.chat.id)
+    else:
+        await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+        message_data = await state.get_data()
+        await bot.delete_message(chat_id=message_data['chat_id'], message_id=message_data['message_id'])
+        await state.clear()
+        bot_message = await message.answer(
+            'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇', reply_markup=BASE_KB
+        )
+        await state.set_state(BotMessage.message_id)
+        await state.update_data(message_id=bot_message.message_id)
+        await state.set_state(BotMessage.chat_id)
+        await state.update_data(chat_id=bot_message.chat.id)
 
 
 @private_router.callback_query(F.data == 'home')
 async def home(callback: types.CallbackQuery, bot: Bot, state: FSMContext):
-    message_data: types.Message = (await state.get_data())['initial_message']
+    message_data = await state.get_data()
     await bot.edit_message_text(
         'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
-        chat_id=message_data.chat.id,
-        message_id=message_data.message_id,
+        chat_id=message_data['chat_id'],
+        message_id=message_data['message_id'],
         reply_markup=BASE_KB,
     )
 
 
 @private_router.callback_query(F.data == 'group_dashboard')
 async def group_dashboard(callback: types.CallbackQuery, bot: Bot, state: FSMContext):
-    message_data: types.Message = (await state.get_data())['initial_message']
+    message_data = await state.get_data()
     await bot.edit_message_text('Пожалуйста выберите ваш курс👇',
-                                chat_id=message_data.chat.id,
-                                message_id=message_data.message_id,
+                                chat_id=message_data['chat_id'],
+                                message_id=message_data['message_id'],
                                 reply_markup=COURSE_KB)
 
 
 @private_router.callback_query(F.data.startswith('course_'))
 async def get_course(callback: types.CallbackQuery, bot: Bot, state: FSMContext):
-    message_data: types.Message = (await state.get_data())['initial_message']
+    message_data = await state.get_data()
     await bot.edit_message_text('Пожалуйста выберите ваш группу👇',
-                                chat_id=message_data.chat.id,
-                                message_id=message_data.message_id,
+                                chat_id=message_data['chat_id'],
+                                message_id=message_data['message_id'],
                                 reply_markup=group_dict[int(callback.data.split('_')[-1])]
                                 )
 
 
 @private_router.callback_query(F.data.startswith('groupnum_'))
 async def get_week_schedule(callback: types.CallbackQuery, bot: Bot, state: FSMContext, session=async_session):
-    message_data: types.Message = (await state.get_data())['initial_message']
+    message_data = await state.get_data()
     group_num = int(callback.data.split('_')[-1])
     schedule: list[tuple, ...] = await get_schedule(session, group_num)
     current_weekday = None
@@ -91,8 +108,8 @@ async def get_week_schedule(callback: types.CallbackQuery, bot: Bot, state: FSMC
             response_message += f'<i>{start_time}: </i>{subject}\n'
 
     await bot.edit_message_text(response_message,
-                                chat_id=message_data.chat.id,
-                                message_id=message_data.message_id,
+                                chat_id=message_data['chat_id'],
+                                message_id=message_data['message_id'],
                                 reply_markup=create_buttons_inline(
                                     buttons={
                                         'Назад к курсам': 'group_dashboard',

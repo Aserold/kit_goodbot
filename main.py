@@ -1,18 +1,23 @@
 import asyncio
+import datetime
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.fsm.storage.redis import RedisStorage
+from redis.asyncio import Redis
 
 from config import TOKEN
 from common.commands import private
 from database.database import async_session
 from database.orm_queries import add_schedule
-from handlers.private_msg import private_router, BotMessage, BASE_KB
+from handlers.private_msg import private_router
 from parser.schedule import parse_schedule
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-dp = Dispatcher()
+redis = Redis()
+storage = RedisStorage(redis=redis, data_ttl=datetime.timedelta(days=7), state_ttl=datetime.timedelta(days=7))
+dp = Dispatcher(storage=storage)
 
 dp.include_router(private_router)
 

@@ -1,11 +1,8 @@
-import asyncio
 import datetime
 
 from sqlalchemy import select, text
 
-from database.models import Course, Group, Weekday, Lesson
-from database.database import async_session
-from parser.schedule import parse_schedule
+from database.schedule.models import Course, Group, Weekday, Lesson
 
 WEEKDAYS = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
 COURSES = [1, 2, 3, 4]
@@ -78,3 +75,11 @@ async def get_schedule(session, group: int):
         schedule = result.fetchall()
         sorted_schedule = sorted(schedule, key=lambda x: (WEEKDAYS.index(x[0]), x[1]))
         return sorted_schedule
+
+
+# async def add_subs(session, data: list[dict, ...]):
+#     day = data[0]['day']
+#     raw_date = data[1]['date'].split('.')
+#     date = datetime.date(day=int(raw_date[0]), month=int(raw_date[1]), year=int(f'20{raw_date[2]}'))
+#     async with session() as session:
+#         for group, sub_info in data[2:]:

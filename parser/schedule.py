@@ -1,14 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 def parse_schedule():
     url = 'https://spb-kit.ru/studentam/raspisanie_zanyatiy_zameny/'
 
-    r = requests.get(url)
-    html = r.text
-    soup = BeautifulSoup(html, 'html.parser')
+    r = requests.get(url).text
+    soup = BeautifulSoup(r, 'html.parser')
 
     schedule_divs = soup.find_all('div', class_='schedule-block-main-content')
 

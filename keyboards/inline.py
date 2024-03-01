@@ -1,5 +1,5 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 def create_buttons_inline(
@@ -10,7 +10,7 @@ def create_buttons_inline(
     keyboard = InlineKeyboardBuilder()
 
     for text, value in buttons.items():
-        if '://' in value:
+        if "://" in value:
             keyboard.add(InlineKeyboardButton(text=text, url=value))
         else:
             keyboard.add(InlineKeyboardButton(text=text, callback_data=value))

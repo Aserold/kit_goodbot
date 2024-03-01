@@ -1,8 +1,8 @@
-from typing import Annotated
 import datetime
+from typing import Annotated
 
-from sqlalchemy import String, SmallInteger, ForeignKey, Date
-from sqlalchemy.orm import Mapped, mapped_column, DeclarativeBase
+from sqlalchemy import Date, SmallInteger, String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 intpk = Annotated[int, mapped_column(primary_key=True, autoincrement=True)]
 str_255 = Annotated[str, 255]
@@ -13,7 +13,7 @@ class Base(DeclarativeBase):
 
 
 class Schedule(Base):
-    __tablename__ = 'schedule'
+    __tablename__ = "schedule"
 
     schedule_id: Mapped[intpk]
     day: Mapped[str_255]
@@ -21,7 +21,7 @@ class Schedule(Base):
 
 
 class Lecture(Base):
-    __tablename__ = 'lecture'
+    __tablename__ = "lecture"
 
     lecture_id: Mapped[intpk]
     group_name: Mapped[str_255]

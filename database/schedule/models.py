@@ -44,4 +44,4 @@ class Lesson(Base):
     subject: Mapped[str_255] = mapped_column(nullable=False)
 
 
-metadata = Base.metadata
+schedule_metadata = Base.metadata

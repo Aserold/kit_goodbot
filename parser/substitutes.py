@@ -58,6 +58,18 @@ def parse_subs():
                     if 'group' in item and item['group'] == current_group:
                         item['lectures'].append(pair_info)
                         break
+            elif len(pair_data) == 4:
+                pair_info = {
+                    "lecture_number": pair_data[0],
+                    "subject": pair_data[1],
+                    "substitute_teacher": 'ПАРА ПЕРЕНЕСЕНА',
+                    "new_subject": '',
+                    "classroom": ''
+                }
+                for item in schedule_data:
+                    if 'group' in item and item['group'] == current_group:
+                        item['lectures'].append(pair_info)
+                        break
 
     default_pair_info = {
         'lecture_number': '№ пары',

@@ -10,13 +10,14 @@ from redis.asyncio import Redis
 from config import TOKEN
 from common.commands import private
 from database.database import async_session
-from database.orm_queries import add_schedule
+from database.orm_queries import add_schedule, add_subs
 from handlers.private_msg import private_router
 from parser.schedule import parse_schedule
+from parser.substitutes import parse_subs
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-redis = Redis()
-storage = RedisStorage(redis=redis, data_ttl=datetime.timedelta(days=7), state_ttl=datetime.timedelta(days=7))
+redis = Redis(port=6378)
+storage = RedisStorage(redis=redis, data_ttl=datetime.timedelta(days=183), state_ttl=datetime.timedelta(days=183))
 dp = Dispatcher(storage=storage)
 
 dp.include_router(private_router)
@@ -24,6 +25,7 @@ dp.include_router(private_router)
 
 async def main():
     await add_schedule(async_session, parse_schedule())
+    await add_subs(async_session, parse_subs())
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_my_commands(commands=private, scope=types.BotCommandScopeAllPrivateChats())
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())

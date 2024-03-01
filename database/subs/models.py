@@ -24,7 +24,6 @@ class Lecture(Base):
     __tablename__ = 'lecture'
 
     lecture_id: Mapped[intpk]
-    schedule_id: Mapped[int] = mapped_column(ForeignKey(Schedule.schedule_id))
     group_name: Mapped[str_255]
     lecture_number: Mapped[int] = mapped_column(SmallInteger)
     subject: Mapped[str_255]

@@ -1,0 +1,34 @@
+name: Pipeline for kitbot
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-22.04
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USER: ${{ secrets.DB_USER }}
+      TOKEN: ${{ secrets.TOKEN }}
+    steps:
+      - name: Checking for changes in repo
+        uses: actions/checkout@v3
+      - name: setup python an create env
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.12
+      - name: Load requirements
+        run: pip install -r requirements.txt
+      - name: Linting
+        run: flake8 . --extend-exclude venv,alembic
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: expect /home/aserold/kit_goodbot/deploy.sh

@@ -2,5 +2,5 @@ venv
 .env
 __pycache__/
 .idea
-draft.*
 celerybeat-schedule.db
+draft.*

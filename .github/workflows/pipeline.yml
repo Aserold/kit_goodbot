@@ -16,9 +16,9 @@ jobs:
       TOKEN: ${{ secrets.TOKEN }}
     steps:
       - name: Checking for changes in repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: setup python an create env
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: 3.12
       - name: Load requirements

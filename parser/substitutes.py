@@ -35,7 +35,12 @@ def parse_subs():
     group_list = [
         group.text
         for group in soup.find_all("td", class_="section")
-        if group.text not in ['.', '*', 'Расписание и замены смотри на сайте www.spbkit.edu.ru в разделе "студентам"']
+        if group.text not in [
+            '.',
+            '*',
+            'Расписание и замены смотри на сайте '
+            'www.spbkit.edu.ru в разделе "студентам"'
+        ]
     ]
 
     for group in group_list:
@@ -93,4 +98,4 @@ def parse_subs():
 
     return schedule_data
 
-print(parse_subs())
+# print(parse_subs())

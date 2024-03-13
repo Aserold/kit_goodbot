@@ -141,10 +141,20 @@ async def get_week_schedule(
             substitute_teacher = sub['substitute_teacher']
             new_subject = sub['new_subject']
             classroom = sub['classroom']
-            response_message +=\
-                (f'{lecture_num} лекция зам. предмет - {subject}\n'
-                 f'преподаёт - {substitute_teacher} '
-                 f'нов. предмет - {new_subject} {classroom}\n\n')
+            if subject and new_subject:
+                response_message +=\
+                    (f'{lecture_num} лекция зам. предмет - {subject}\n'
+                     f'преподаёт - {substitute_teacher} '
+                     f'нов. предмет - {new_subject} {classroom}\n\n')
+            elif (not subject) and new_subject:
+                response_message += \
+                    (f'{lecture_num} лекция - НОВАЯ ПАРА\n'
+                     f'Преподаёт - {substitute_teacher} '
+                     f'Предмет - {new_subject} {classroom}\n\n')
+            elif subject and (not new_subject):
+                response_message += \
+                    (f'{lecture_num} лекция зам. предмет - {subject}\n'
+                     f'ПАРА ОТМЕНЕНА ИЛИ ПЕРЕНЕСЕНА\n\n')
 
     await bot.edit_message_text(response_message,
                                 chat_id=message_data['chat_id'],

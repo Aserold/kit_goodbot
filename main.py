@@ -1,7 +1,5 @@
 import asyncio
 import datetime
-from parser.schedule import parse_schedule
-from parser.substitutes import parse_subs
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
@@ -11,8 +9,6 @@ from redis.asyncio import Redis
 
 from common.commands import private
 from config import TOKEN
-from database.database import async_session
-from database.orm_queries import add_schedule, add_subs
 from handlers.private_msg import private_router
 
 bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -28,8 +24,6 @@ dp.include_router(private_router)
 
 
 async def main():
-    await add_schedule(async_session, parse_schedule())
-    await add_subs(async_session, parse_subs())
     await bot.delete_webhook(drop_pending_updates=True)
     await bot.set_my_commands(
         commands=private, scope=types.BotCommandScopeAllPrivateChats()

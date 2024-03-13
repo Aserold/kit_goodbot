@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from sqlalchemy import select, text
+from sqlalchemy import func, select, text
 
 from database.schedule.models import Course, Group, Lesson, Weekday
 from database.subs.models import Lecture, Schedule
@@ -111,22 +111,51 @@ async def add_subs(session, data: list[dict, ...]):
             lectures = sub["lectures"]
 
             for lecture in lectures:
-                lecture_number = lecture["lecture_number"]
-                subject = lecture["subject"]
-                substitute_teacher = lecture["substitute_teacher"]
-                new_subject = lecture["new_subject"]
-                classroom = lecture["classroom"]
+                lecture_number: str = lecture["lecture_number"]
+                try:
+                    subject = lecture["subject"]
+                    substitute_teacher = lecture["substitute_teacher"]
+                    new_subject = lecture["new_subject"]
+                    classroom = lecture["classroom"]
 
-                add_sublesson = Lecture(
-                    group_name=group_name,
-                    lecture_number=int(lecture_number),
-                    subject=subject,
-                    substitute_teacher=substitute_teacher,
-                    new_subject=new_subject,
-                    classroom=classroom,
-                )
-                session.add(add_sublesson)
-                await session.commit()
+                    add_sublesson = Lecture(
+                        group_name=group_name,
+                        lecture_number=int(lecture_number),
+                        subject=subject,
+                        substitute_teacher=substitute_teacher,
+                        new_subject=new_subject,
+                        classroom=classroom,
+                    )
+                    session.add(add_sublesson)
+                    await session.commit()
+                except ValueError:
+                    lecture_1 = int(lecture_number.split(",")[0])
+                    lecture_2 = int(lecture_number.split(",")[-1])
+                    subject = lecture["subject"]
+                    substitute_teacher = lecture["substitute_teacher"]
+                    new_subject = lecture["new_subject"]
+                    classroom = lecture["classroom"]
+
+                    add_sublesson1 = Lecture(
+                        group_name=group_name,
+                        lecture_number=lecture_1,
+                        subject=subject,
+                        substitute_teacher=substitute_teacher,
+                        new_subject=new_subject,
+                        classroom=classroom,
+                    )
+                    session.add(add_sublesson1)
+                    await session.commit()
+                    add_sublesson2 = Lecture(
+                        group_name=group_name,
+                        lecture_number=lecture_2,
+                        subject=subject,
+                        substitute_teacher=substitute_teacher,
+                        new_subject=new_subject,
+                        classroom=classroom,
+                    )
+                    session.add(add_sublesson2)
+                    await session.commit()
 
 
 async def check_for_subs(session, group: int):
@@ -144,10 +173,10 @@ async def check_for_subs(session, group: int):
 
 async def get_subs(session, group: int):
     async with session() as session:
-        group_filter = f"{group}%"
+        group_filter = f"^{group}[a-z]?$"
         query = (
             select(Lecture)
-            .where(Lecture.group_name.like(group_filter))
+            .where(func.lower(Lecture.group_name).op("~")(group_filter))
             .order_by(Lecture.lecture_number)
         )
         result = await session.execute(query)

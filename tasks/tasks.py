@@ -27,5 +27,5 @@ def hourly_subs_update():
     return result
 
 
-hourly_schedule_update.delay()
-hourly_subs_update.delay()
+# hourly_schedule_update.delay()
+# hourly_subs_update.delay()

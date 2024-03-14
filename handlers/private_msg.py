@@ -71,9 +71,9 @@ async def hello(message: types.Message, bot: Bot, state: FSMContext):
 @private_router.message(Command('about'))
 async def about(message: types.Message, bot: Bot):
     await message.answer(
-        f'Бот показывает расписание и замены.\n'
-        f'github репозиторий - https://github.com/Aserold/kit_goodbot.\n'
-        f'Прошу сообщать о проблемах в лс @aserold'
+        'Бот показывает расписание и замены.\n'
+        'github репозиторий - https://github.com/Aserold/kit_goodbot.\n'
+        'Прошу сообщать о проблемах в лс @aserold'
     )
 
 

@@ -17,8 +17,11 @@ def parse_subs():
     driver.get("http://rep.spb-kit.online:8005/replacements/view.html")
 
     try:
-        (WebDriverWait(driver, 100).
-         until(ec.presence_of_element_located((By.TAG_NAME, "html"))))
+        (
+            WebDriverWait(driver, 100).until(
+                ec.presence_of_element_located((By.TAG_NAME, "html"))
+            )
+        )
 
         body_element = driver.find_element(By.TAG_NAME, "html")
 
@@ -40,11 +43,12 @@ def parse_subs():
     group_list = [
         group.text
         for group in soup.find_all("td", class_="section")
-        if group.text not in [
-            '.',
-            '*',
-            'Расписание и замены смотри на сайте '
-            'www.spbkit.edu.ru в разделе "студентам"'
+        if group.text
+        not in [
+            ".",
+            "*",
+            "Расписание и замены смотри на сайте "
+            'www.spbkit.edu.ru в разделе "студентам"',
         ]
     ]
 
@@ -102,5 +106,6 @@ def parse_subs():
             ]
 
     return schedule_data
+
 
 print(parse_subs())

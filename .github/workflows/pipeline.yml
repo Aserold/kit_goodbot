@@ -31,4 +31,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: expect /home/aserold/kit_goodbot/deploy.exp
+          script: /home/aserold/kit_goodbot/deploy_new.sh

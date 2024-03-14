@@ -1,5 +1,5 @@
 from aiogram import Bot, F, Router, types
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
 
@@ -66,6 +66,15 @@ async def hello(message: types.Message, bot: Bot, state: FSMContext):
         await state.update_data(message_id=bot_message.message_id)
         await state.set_state(BotMessage.chat_id)
         await state.update_data(chat_id=bot_message.chat.id)
+
+
+@private_router.message(Command('about'))
+async def about(message: types.Message, bot: Bot):
+    await message.answer(
+        f'Бот показывает расписание и замены.\n'
+        f'github репозиторий - https://github.com/Aserold/kit_goodbot.\n'
+        f'Прошу сообщать о проблемах в лс @aserold'
+    )
 
 
 @private_router.callback_query(F.data == 'home')

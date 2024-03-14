@@ -78,8 +78,8 @@ def parse_subs():
                 pair_info = {
                     "lecture_number": pair_data[0],
                     "subject": pair_data[1],
-                    "substitute_teacher": "ПАРА ПЕРЕНЕСЕНА",
-                    "new_subject": "",
+                    "substitute_teacher": pair_data[2],
+                    "new_subject": pair_data[3],
                     "classroom": "",
                 }
                 for item in schedule_data:
@@ -103,4 +103,4 @@ def parse_subs():
 
     return schedule_data
 
-# print(parse_subs())
+print(parse_subs())

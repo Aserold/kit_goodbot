@@ -1,7 +1,7 @@
 from celery.schedules import crontab
 
 broker_url = "redis://localhost:6378/1"
-timezone = "UTC"
+timezone = "Europe/Moscow"
 
 beat_schedule = {
     "schedule-hourly-update": {

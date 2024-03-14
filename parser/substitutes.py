@@ -2,6 +2,8 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
 
 
 def parse_subs():
@@ -15,6 +17,8 @@ def parse_subs():
     driver.get("http://rep.spb-kit.online:8005/replacements/view.html")
 
     try:
+        WebDriverWait(driver, 100).until(ec.presence_of_element_located((By.TAG_NAME, "html")))
+
         body_element = driver.find_element(By.TAG_NAME, "html")
 
         html = body_element.get_attribute("innerHTML")

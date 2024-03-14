@@ -18,7 +18,7 @@ def parse_subs():
 
     try:
         (
-            WebDriverWait(driver, 100).until(
+            WebDriverWait(driver, 300).until(
                 ec.presence_of_element_located((By.TAG_NAME, "html"))
             )
         )

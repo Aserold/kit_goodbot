@@ -7,8 +7,6 @@
 
 ## Технологии
 
-Dillinger uses a number of open source projects to work properly:
-
 - [Python](https://www.python.org/)
 - [Aiogram](https://github.com/aiogram/aiogram)
 - [Docker](https://www.docker.com/)

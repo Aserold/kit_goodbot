@@ -38,34 +38,14 @@ class BotMessage(StatesGroup):
 
 @private_router.message(CommandStart())
 async def hello(message: types.Message, bot: Bot, state: FSMContext):
-    if not await state.get_data():
-        bot_message = await message.answer(
-            'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
-            reply_markup=BASE_KB
-        )
-        await state.set_state(BotMessage.message_id)
-        await state.update_data(message_id=bot_message.message_id)
-        await state.set_state(BotMessage.chat_id)
-        await state.update_data(chat_id=bot_message.chat.id)
-    else:
-        await bot.delete_message(
-            chat_id=message.chat.id,
-            message_id=message.message_id
-            )
-        message_data = await state.get_data()
-        await bot.delete_message(
-            chat_id=message_data['chat_id'],
-            message_id=message_data['message_id']
-            )
-        await state.clear()
-        bot_message = await message.answer(
-            'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
-            reply_markup=BASE_KB
-        )
-        await state.set_state(BotMessage.message_id)
-        await state.update_data(message_id=bot_message.message_id)
-        await state.set_state(BotMessage.chat_id)
-        await state.update_data(chat_id=bot_message.chat.id)
+    bot_message = await message.answer(
+        'Здравствуйте! Пожалуйста нажмите на кнопку ниже👇',
+        reply_markup=BASE_KB
+    )
+    await state.set_state(BotMessage.message_id)
+    await state.update_data(message_id=bot_message.message_id)
+    await state.set_state(BotMessage.chat_id)
+    await state.update_data(chat_id=bot_message.chat.id)
 
 
 @private_router.message(Command('about'))
